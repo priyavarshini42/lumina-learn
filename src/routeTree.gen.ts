@@ -9,9 +9,63 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WellnessRouteImport } from './routes/wellness'
+import { Route as TutorRouteImport } from './routes/tutor'
+import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ParentsRouteImport } from './routes/parents'
+import { Route as LensRouteImport } from './routes/lens'
+import { Route as ExamsRouteImport } from './routes/exams'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ClassroomRouteImport } from './routes/classroom'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
+const WellnessRoute = WellnessRouteImport.update({
+  id: '/wellness',
+  path: '/wellness',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TutorRoute = TutorRouteImport.update({
+  id: '/tutor',
+  path: '/tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParentsRoute = ParentsRouteImport.update({
+  id: '/parents',
+  path: '/parents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LensRoute = LensRouteImport.update({
+  id: '/lens',
+  path: '/lens',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamsRoute = ExamsRouteImport.update({
+  id: '/exams',
+  path: '/exams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClassroomRoute = ClassroomRouteImport.update({
+  id: '/classroom',
+  path: '/classroom',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -25,32 +79,165 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/classroom': typeof ClassroomRoute
+  '/dashboard': typeof DashboardRoute
+  '/exams': typeof ExamsRoute
+  '/lens': typeof LensRoute
+  '/parents': typeof ParentsRoute
+  '/skills': typeof SkillsRoute
+  '/stories': typeof StoriesRoute
+  '/tutor': typeof TutorRoute
+  '/wellness': typeof WellnessRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/classroom': typeof ClassroomRoute
+  '/dashboard': typeof DashboardRoute
+  '/exams': typeof ExamsRoute
+  '/lens': typeof LensRoute
+  '/parents': typeof ParentsRoute
+  '/skills': typeof SkillsRoute
+  '/stories': typeof StoriesRoute
+  '/tutor': typeof TutorRoute
+  '/wellness': typeof WellnessRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/classroom': typeof ClassroomRoute
+  '/dashboard': typeof DashboardRoute
+  '/exams': typeof ExamsRoute
+  '/lens': typeof LensRoute
+  '/parents': typeof ParentsRoute
+  '/skills': typeof SkillsRoute
+  '/stories': typeof StoriesRoute
+  '/tutor': typeof TutorRoute
+  '/wellness': typeof WellnessRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/classroom'
+    | '/dashboard'
+    | '/exams'
+    | '/lens'
+    | '/parents'
+    | '/skills'
+    | '/stories'
+    | '/tutor'
+    | '/wellness'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat'
-  id: '__root__' | '/' | '/api/chat'
+  to:
+    | '/'
+    | '/classroom'
+    | '/dashboard'
+    | '/exams'
+    | '/lens'
+    | '/parents'
+    | '/skills'
+    | '/stories'
+    | '/tutor'
+    | '/wellness'
+    | '/api/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/classroom'
+    | '/dashboard'
+    | '/exams'
+    | '/lens'
+    | '/parents'
+    | '/skills'
+    | '/stories'
+    | '/tutor'
+    | '/wellness'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClassroomRoute: typeof ClassroomRoute
+  DashboardRoute: typeof DashboardRoute
+  ExamsRoute: typeof ExamsRoute
+  LensRoute: typeof LensRoute
+  ParentsRoute: typeof ParentsRoute
+  SkillsRoute: typeof SkillsRoute
+  StoriesRoute: typeof StoriesRoute
+  TutorRoute: typeof TutorRoute
+  WellnessRoute: typeof WellnessRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wellness': {
+      id: '/wellness'
+      path: '/wellness'
+      fullPath: '/wellness'
+      preLoaderRoute: typeof WellnessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tutor': {
+      id: '/tutor'
+      path: '/tutor'
+      fullPath: '/tutor'
+      preLoaderRoute: typeof TutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parents': {
+      id: '/parents'
+      path: '/parents'
+      fullPath: '/parents'
+      preLoaderRoute: typeof ParentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lens': {
+      id: '/lens'
+      path: '/lens'
+      fullPath: '/lens'
+      preLoaderRoute: typeof LensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exams': {
+      id: '/exams'
+      path: '/exams'
+      fullPath: '/exams'
+      preLoaderRoute: typeof ExamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/classroom': {
+      id: '/classroom'
+      path: '/classroom'
+      fullPath: '/classroom'
+      preLoaderRoute: typeof ClassroomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -70,6 +257,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClassroomRoute: ClassroomRoute,
+  DashboardRoute: DashboardRoute,
+  ExamsRoute: ExamsRoute,
+  LensRoute: LensRoute,
+  ParentsRoute: ParentsRoute,
+  SkillsRoute: SkillsRoute,
+  StoriesRoute: StoriesRoute,
+  TutorRoute: TutorRoute,
+  WellnessRoute: WellnessRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
