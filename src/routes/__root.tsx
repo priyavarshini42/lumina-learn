@@ -77,14 +77,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Vidya AI — Every Student Deserves a Personal AI Teacher" },
+      {
+        name: "description",
+        content:
+          "Multilingual AI teacher, mentor and life guide for rural and underserved students. Learn, grow, and succeed beyond classrooms.",
+      },
+      { name: "author", content: "Vidya AI" },
+      { property: "og:title", content: "Vidya AI — Personal AI Teacher" },
+      {
+        property: "og:description",
+        content:
+          "AI-powered multilingual mentor helping students learn, grow, and succeed beyond classrooms.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
