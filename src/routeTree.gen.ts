@@ -13,11 +13,13 @@ import { Route as WellnessRouteImport } from './routes/wellness'
 import { Route as TutorRouteImport } from './routes/tutor'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ParentsRouteImport } from './routes/parents'
 import { Route as LensRouteImport } from './routes/lens'
 import { Route as ExamsRouteImport } from './routes/exams'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ClassroomRouteImport } from './routes/classroom'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
@@ -39,6 +41,11 @@ const StoriesRoute = StoriesRouteImport.update({
 const SkillsRoute = SkillsRouteImport.update({
   id: '/skills',
   path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ParentsRoute = ParentsRouteImport.update({
@@ -66,6 +73,11 @@ const ClassroomRoute = ClassroomRouteImport.update({
   path: '/classroom',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -79,11 +91,13 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/classroom': typeof ClassroomRoute
   '/dashboard': typeof DashboardRoute
   '/exams': typeof ExamsRoute
   '/lens': typeof LensRoute
   '/parents': typeof ParentsRoute
+  '/profile': typeof ProfileRoute
   '/skills': typeof SkillsRoute
   '/stories': typeof StoriesRoute
   '/tutor': typeof TutorRoute
@@ -92,11 +106,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/classroom': typeof ClassroomRoute
   '/dashboard': typeof DashboardRoute
   '/exams': typeof ExamsRoute
   '/lens': typeof LensRoute
   '/parents': typeof ParentsRoute
+  '/profile': typeof ProfileRoute
   '/skills': typeof SkillsRoute
   '/stories': typeof StoriesRoute
   '/tutor': typeof TutorRoute
@@ -106,11 +122,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/classroom': typeof ClassroomRoute
   '/dashboard': typeof DashboardRoute
   '/exams': typeof ExamsRoute
   '/lens': typeof LensRoute
   '/parents': typeof ParentsRoute
+  '/profile': typeof ProfileRoute
   '/skills': typeof SkillsRoute
   '/stories': typeof StoriesRoute
   '/tutor': typeof TutorRoute
@@ -121,11 +139,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/classroom'
     | '/dashboard'
     | '/exams'
     | '/lens'
     | '/parents'
+    | '/profile'
     | '/skills'
     | '/stories'
     | '/tutor'
@@ -134,11 +154,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/classroom'
     | '/dashboard'
     | '/exams'
     | '/lens'
     | '/parents'
+    | '/profile'
     | '/skills'
     | '/stories'
     | '/tutor'
@@ -147,11 +169,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/classroom'
     | '/dashboard'
     | '/exams'
     | '/lens'
     | '/parents'
+    | '/profile'
     | '/skills'
     | '/stories'
     | '/tutor'
@@ -161,11 +185,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ClassroomRoute: typeof ClassroomRoute
   DashboardRoute: typeof DashboardRoute
   ExamsRoute: typeof ExamsRoute
   LensRoute: typeof LensRoute
   ParentsRoute: typeof ParentsRoute
+  ProfileRoute: typeof ProfileRoute
   SkillsRoute: typeof SkillsRoute
   StoriesRoute: typeof StoriesRoute
   TutorRoute: typeof TutorRoute
@@ -203,6 +229,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/parents': {
       id: '/parents'
       path: '/parents'
@@ -238,6 +271,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClassroomRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -257,11 +297,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ClassroomRoute: ClassroomRoute,
   DashboardRoute: DashboardRoute,
   ExamsRoute: ExamsRoute,
   LensRoute: LensRoute,
   ParentsRoute: ParentsRoute,
+  ProfileRoute: ProfileRoute,
   SkillsRoute: SkillsRoute,
   StoriesRoute: StoriesRoute,
   TutorRoute: TutorRoute,
@@ -271,13 +313,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
