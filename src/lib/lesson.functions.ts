@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { generateLessonContent, evaluateHomeworkContent } from "./lesson.server";
 import type { Lesson, HomeworkReport } from "./classroom-types";
+import type { Json } from "@/integrations/supabase/types";
 
 type StartInput = {
   subject: string;
@@ -41,7 +42,7 @@ export const startLesson = createServerFn({ method: "POST" })
         user_id: userId,
         chapter_id: data.chapterId,
         chapter_title: data.chapterTitle,
-        lesson: lesson as unknown as Record<string, unknown>,
+        lesson: lesson as unknown as Json,
         language: data.language,
       })
       .select("id")
@@ -61,7 +62,7 @@ export const startLesson = createServerFn({ method: "POST" })
       user_id: userId,
       session_id: session.id,
       chapter_title: data.chapterTitle,
-      questions: lesson.homework as unknown as Record<string, unknown>[],
+      questions: lesson.homework as unknown as Json,
     });
 
     await supabase
@@ -140,9 +141,9 @@ export const submitHomework = createServerFn({ method: "POST" })
     await context.supabase
       .from("homework")
       .update({
-        answers: data.submissions as unknown as Record<string, unknown>[],
+        answers: data.submissions as unknown as Json,
         score: Number(accuracy.toFixed(2)),
-        report: report as unknown as Record<string, unknown>,
+        report: report as unknown as Json,
         status: "evaluated",
       })
       .eq("session_id", data.sessionId)
