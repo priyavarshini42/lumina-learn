@@ -1,4 +1,5 @@
-import { streamText, Output, NoObjectGeneratedError } from "ai";
+import { streamText } from "ai";
+import type { ZodType } from "zod";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 import {
   lessonSchema,
@@ -74,24 +75,32 @@ ${input.submissions
   .join("\n")}`;
 }
 
+function extractJson(text: string): unknown {
+  const cleaned = text.replace(/```json/gi, "```").trim();
+  const fenced = cleaned.match(/```([\s\S]*?)```/);
+  const body = fenced?.[1] ?? cleaned;
+  const start = body.search(/[[{]/);
+  const end = Math.max(body.lastIndexOf("}"), body.lastIndexOf("]"));
+  if (start === -1 || end === -1) throw new Error("The AI teacher returned an unexpected answer.");
+  return JSON.parse(body.slice(start, end + 1));
+}
+
+async function generateStructured<T>(schema: ZodType<T>, prompt: string, apiKey: string): Promise<T> {
+  const gateway = createLovableAiGatewayProvider(apiKey);
+  const result = streamText({
+    model: gateway(MODEL),
+    system:
+      "Reply with a single valid JSON object only. No markdown fences, no commentary, no trailing text.",
+    prompt,
+  });
+  const text = await result.text;
+  return schema.parse(extractJson(text));
+}
+
 export async function generateLessonContent(req: LessonRequest): Promise<Lesson> {
   const key = process.env["LOVABLE_API_KEY"];
   if (!key) throw new Error("AI is not configured yet.");
-  const gateway = createLovableAiGatewayProvider(key);
-
-  try {
-    const result = streamText({
-      model: gateway(MODEL),
-      output: Output.object({ schema: lessonSchema }),
-      prompt: buildLessonPrompt(req),
-    });
-    return (await result.output) as Lesson;
-  } catch (error) {
-    if (NoObjectGeneratedError.isInstance(error)) {
-      throw new Error("Could not prepare today's lesson. Please try again.");
-    }
-    throw error;
-  }
+  return generateStructured(lessonSchema, buildLessonPrompt(req), key) as Promise<Lesson>;
 }
 
 export async function evaluateHomeworkContent(input: {
@@ -102,19 +111,5 @@ export async function evaluateHomeworkContent(input: {
 }): Promise<HomeworkReport> {
   const key = process.env["LOVABLE_API_KEY"];
   if (!key) throw new Error("AI is not configured yet.");
-  const gateway = createLovableAiGatewayProvider(key);
-
-  try {
-    const result = streamText({
-      model: gateway(MODEL),
-      output: Output.object({ schema: homeworkReportSchema }),
-      prompt: buildEvaluationPrompt(input),
-    });
-    return (await result.output) as HomeworkReport;
-  } catch (error) {
-    if (NoObjectGeneratedError.isInstance(error)) {
-      throw new Error("Could not evaluate the homework. Please try again.");
-    }
-    throw error;
-  }
+  return generateStructured(homeworkReportSchema, buildEvaluationPrompt(input), key) as Promise<HomeworkReport>;
 }
