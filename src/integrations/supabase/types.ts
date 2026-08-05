@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      chapter_progress: {
+        Row: {
+          chapter_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chapter_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chapter_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chapter_progress_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chapters: {
         Row: {
           created_at: string
@@ -49,6 +87,59 @@ export type Database = {
           },
         ]
       }
+      homework: {
+        Row: {
+          answers: Json | null
+          chapter_title: string
+          created_at: string
+          due_date: string
+          id: string
+          questions: Json
+          report: Json | null
+          score: number | null
+          session_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answers?: Json | null
+          chapter_title: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          questions?: Json
+          report?: Json | null
+          score?: number | null
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json | null
+          chapter_title?: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          questions?: Json
+          report?: Json | null
+          score?: number | null
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "homework_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "lesson_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       languages: {
         Row: {
           code: string
@@ -72,6 +163,105 @@ export type Database = {
           sort_order?: number
         }
         Relationships: []
+      }
+      learning_preferences: {
+        Row: {
+          board: string
+          created_at: string
+          daily_minutes: number
+          learning_speed: string
+          medium: string
+          onboarded: boolean
+          updated_at: string
+          user_id: string
+          voice_language: string
+        }
+        Insert: {
+          board?: string
+          created_at?: string
+          daily_minutes?: number
+          learning_speed?: string
+          medium?: string
+          onboarded?: boolean
+          updated_at?: string
+          user_id: string
+          voice_language?: string
+        }
+        Update: {
+          board?: string
+          created_at?: string
+          daily_minutes?: number
+          learning_speed?: string
+          medium?: string
+          onboarded?: boolean
+          updated_at?: string
+          user_id?: string
+          voice_language?: string
+        }
+        Relationships: []
+      }
+      lesson_sessions: {
+        Row: {
+          chapter_id: string | null
+          chapter_title: string
+          completed: boolean
+          created_at: string
+          current_step: number
+          id: string
+          language: string
+          lesson: Json
+          quiz_score: number | null
+          session_date: string
+          subject_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chapter_id?: string | null
+          chapter_title: string
+          completed?: boolean
+          created_at?: string
+          current_step?: number
+          id?: string
+          language?: string
+          lesson?: Json
+          quiz_score?: number | null
+          session_date?: string
+          subject_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chapter_id?: string | null
+          chapter_title?: string
+          completed?: boolean
+          created_at?: string
+          current_step?: number
+          id?: string
+          language?: string
+          lesson?: Json
+          quiz_score?: number | null
+          session_date?: string
+          subject_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_sessions_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_sessions_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       parent_student_links: {
         Row: {
@@ -189,6 +379,33 @@ export type Database = {
           updated_at?: string
           user_id?: string
           voice_enabled?: boolean
+        }
+        Relationships: []
+      }
+      study_attendance: {
+        Row: {
+          created_at: string
+          id: string
+          minutes: number
+          study_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          minutes?: number
+          study_date?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          minutes?: number
+          study_date?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
