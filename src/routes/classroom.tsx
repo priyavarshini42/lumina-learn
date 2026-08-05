@@ -94,7 +94,7 @@ function Classroom() {
         supabase.from("study_attendance").select("study_date").eq("user_id", user.id),
       ]);
       if (!active) return;
-      setPrefs((p as Prefsrow | null) ?? null);
+      setPrefs((p as PrefsRow | null) ?? null);
       setCompletedIds((prog ?? []).filter((r) => r.status === "completed").map((r) => r.chapter_id));
       setInProgressIds(
         (prog ?? []).filter((r) => r.status === "in_progress").map((r) => r.chapter_id),
