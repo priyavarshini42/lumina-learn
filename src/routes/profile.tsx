@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { educationLabel, useAuth } from "@/hooks/useAuth";
 import { LANGUAGES, useLanguage } from "@/lib/i18n";
 import { isPasswordValid, usernameToAuthEmail } from "@/lib/validation";
+import { ParentRequests } from "@/components/parent/ParentRequests";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -251,6 +252,10 @@ function ProfilePage() {
               {t("profile.changePassword")}
             </button>
           </GlassCard>
+
+          <ParentRequests />
+
+
 
           <div className="text-center text-xs text-white/40">
             Need to link a parent account?{" "}
