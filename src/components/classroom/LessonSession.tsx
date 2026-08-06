@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   ClipboardList,
   Lightbulb,
+  HelpCircle,
   RefreshCw,
   Sparkles,
   Target,
@@ -15,6 +16,7 @@ import {
 import { GlassCard } from "@/components/ui/Section";
 import { AvatarStage } from "./AvatarStage";
 import { useSpeech } from "@/hooks/useSpeech";
+import { useDoubt } from "@/lib/doubt-context";
 import { VOICE_LOCALES, type HomeworkReport, type Lesson, type Mcq } from "@/lib/classroom-types";
 
 type Phase = "revision" | "intro" | "topic" | "summary" | "quiz" | "assignment" | "homework";
@@ -64,6 +66,15 @@ export function LessonSession({
   const { speak, stop, speaking } = useSpeech(locale, rate);
 
   const topic = lesson.topics[topicIndex];
+
+  // Keep the always-on doubt solver aware of what is being taught right now.
+  const { ask, setTopic } = useDoubt();
+  useEffect(() => {
+    setTopic(
+      `${lesson.subject} · ${lesson.chapterTitle}${topic ? ` — ${topic.title}` : ""} (${lesson.grade})`,
+    );
+    return () => setTopic(null);
+  }, [lesson.subject, lesson.chapterTitle, lesson.grade, topic, setTopic]);
 
   const spokenText = useMemo(() => {
     if (phase === "intro") return `${lesson.introduction}`;
@@ -137,6 +148,15 @@ export function LessonSession({
               </div>
             ))}
           </div>
+          <button
+            onClick={() => {
+              stop();
+              ask();
+            }}
+            className="glass mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm text-white/85 transition hover:bg-white/10"
+          >
+            <HelpCircle className="h-4 w-4 text-[#FF4FD9]" /> I have a doubt
+          </button>
         </div>
       </div>
 
