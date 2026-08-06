@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   ClipboardList,
   Lightbulb,
+  HelpCircle,
   RefreshCw,
   Sparkles,
   Target,
@@ -15,6 +16,7 @@ import {
 import { GlassCard } from "@/components/ui/Section";
 import { AvatarStage } from "./AvatarStage";
 import { useSpeech } from "@/hooks/useSpeech";
+import { useDoubt } from "@/lib/doubt-context";
 import { VOICE_LOCALES, type HomeworkReport, type Lesson, type Mcq } from "@/lib/classroom-types";
 
 type Phase = "revision" | "intro" | "topic" | "summary" | "quiz" | "assignment" | "homework";
