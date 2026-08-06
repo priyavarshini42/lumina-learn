@@ -67,6 +67,15 @@ export function LessonSession({
 
   const topic = lesson.topics[topicIndex];
 
+  // Keep the always-on doubt solver aware of what is being taught right now.
+  const { ask, setTopic } = useDoubt();
+  useEffect(() => {
+    setTopic(
+      `${lesson.subject} · ${lesson.chapterTitle}${topic ? ` — ${topic.title}` : ""} (${lesson.grade})`,
+    );
+    return () => setTopic(null);
+  }, [lesson.subject, lesson.chapterTitle, lesson.grade, topic, setTopic]);
+
   const spokenText = useMemo(() => {
     if (phase === "intro") return `${lesson.introduction}`;
     if (phase === "topic" && topic) {
