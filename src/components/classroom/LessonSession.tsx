@@ -137,6 +137,15 @@ export function LessonSession({
               </div>
             ))}
           </div>
+          <button
+            onClick={() => {
+              stop();
+              ask();
+            }}
+            className="glass mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm text-white/85 transition hover:bg-white/10"
+          >
+            <HelpCircle className="h-4 w-4 text-[#FF4FD9]" /> I have a doubt
+          </button>
         </div>
       </div>
 
