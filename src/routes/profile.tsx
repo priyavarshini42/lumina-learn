@@ -252,6 +252,10 @@ function ProfilePage() {
             </button>
           </GlassCard>
 
+          <ParentRequests />
+
+
+
           <div className="text-center text-xs text-white/40">
             Need to link a parent account?{" "}
             <Link to="/parents" className="text-[#FF4FD9]">
