@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { DoubtSolver } from "@/components/doubt/DoubtSolver";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
