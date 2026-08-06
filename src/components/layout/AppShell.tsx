@@ -156,14 +156,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </nav>
 
-      {/* Floating voice/AI assistant */}
-      <Link
-        to="/tutor"
-        className="fixed bottom-24 right-4 z-40 lg:bottom-6 lg:right-6 h-14 w-14 rounded-full bg-gradient-to-br from-[#FF4FD9] to-[#6366F1] flex items-center justify-center shadow-2xl animate-pulse-glow"
-        aria-label="Ask Vidya"
-      >
-        <MessageSquare className="h-6 w-6 text-white" />
-      </Link>
+      {/* Always-available AI doubt solver */}
+      <DoubtSolver />
 
       <footer className="border-t border-white/5 mt-16">
         <div className="mx-auto max-w-7xl px-6 py-10 grid gap-8 md:grid-cols-3 text-sm text-white/60">
