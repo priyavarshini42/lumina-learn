@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { educationLabel, useAuth } from "@/hooks/useAuth";
 import { LANGUAGES, useLanguage } from "@/lib/i18n";
 import { isPasswordValid, usernameToAuthEmail } from "@/lib/validation";
+import { ParentRequests } from "@/components/parent/ParentRequests";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
