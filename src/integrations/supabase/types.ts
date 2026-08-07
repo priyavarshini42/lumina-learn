@@ -263,6 +263,33 @@ export type Database = {
           },
         ]
       }
+      notification_preferences: {
+        Row: {
+          created_at: string
+          homework_enabled: boolean
+          quiz_enabled: boolean
+          streak_enabled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          homework_enabled?: boolean
+          quiz_enabled?: boolean
+          streak_enabled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          homework_enabled?: boolean
+          quiz_enabled?: boolean
+          streak_enabled?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string
