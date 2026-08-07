@@ -16,6 +16,8 @@ import {
 import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DoubtSolver } from "@/components/doubt/DoubtSolver";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
+
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
