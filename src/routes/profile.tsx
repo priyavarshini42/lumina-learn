@@ -253,6 +253,8 @@ function ProfilePage() {
             </button>
           </GlassCard>
 
+          <NotificationPreferences />
+
           <ParentRequests />
 
 
