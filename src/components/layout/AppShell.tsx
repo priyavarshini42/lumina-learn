@@ -16,6 +16,8 @@ import {
 import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DoubtSolver } from "@/components/doubt/DoubtSolver";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
+
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
@@ -92,7 +94,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <NotificationBell />
             <Link
+
               to="/tutor"
               className="hidden sm:inline-flex btn-neon btn-neon-hover text-sm"
             >
