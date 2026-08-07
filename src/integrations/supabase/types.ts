@@ -263,6 +263,48 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          href: string | null
+          id: string
+          kind: string
+          meta: Json
+          read: boolean
+          recipient_id: string
+          student_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          href?: string | null
+          id?: string
+          kind: string
+          meta?: Json
+          read?: boolean
+          recipient_id: string
+          student_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          href?: string | null
+          id?: string
+          kind?: string
+          meta?: Json
+          read?: boolean
+          recipient_id?: string
+          student_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       parent_student_links: {
         Row: {
           approved: boolean
@@ -524,6 +566,17 @@ export type Database = {
         Returns: boolean
       }
       is_username_available: { Args: { _username: string }; Returns: boolean }
+      notify_parents: {
+        Args: {
+          _body: string
+          _href: string
+          _kind: string
+          _meta: Json
+          _student: string
+          _title: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "student" | "parent" | "admin"
