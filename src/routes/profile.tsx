@@ -10,6 +10,7 @@ import { educationLabel, useAuth } from "@/hooks/useAuth";
 import { LANGUAGES, useLanguage } from "@/lib/i18n";
 import { isPasswordValid, usernameToAuthEmail } from "@/lib/validation";
 import { ParentRequests } from "@/components/parent/ParentRequests";
+import { NotificationPreferences } from "@/components/notifications/NotificationPreferences";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
