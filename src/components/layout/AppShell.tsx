@@ -92,7 +92,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <NotificationBell />
             <Link
+
               to="/tutor"
               className="hidden sm:inline-flex btn-neon btn-neon-hover text-sm"
             >
