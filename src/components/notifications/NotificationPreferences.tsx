@@ -80,6 +80,23 @@ export function NotificationPreferences() {
     }
   };
 
+  const runTest = async (kind: TestKind) => {
+    setTesting(kind);
+    try {
+      const res = await sendTest({ data: { kind } });
+      if (res.sent) {
+        toast.success(`Test ${kind} alert sent — check your bell.`);
+      } else {
+        toast.info(`${kind} alerts are muted, so nothing was sent. Preferences are working.`);
+      }
+    } catch {
+      toast.error("Could not send the test notification. Please try again.");
+    } finally {
+      setTesting(null);
+    }
+  };
+
+
   if (!user) return null;
 
   return (
