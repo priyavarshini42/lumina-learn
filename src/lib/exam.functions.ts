@@ -95,7 +95,7 @@ export const generateWeeklyExam = createServerFn({ method: "POST" })
       .eq("week_start", weekStart)
       .maybeSingle();
     if (existing && !data.regenerate) return toRecord(existing);
-    if (existing && existing.status === "submitted") return toRecord(existing);
+
 
     const since = new Date(Date.now() - 13 * 86400000).toISOString().slice(0, 10);
     const [{ data: sessions }, { data: homework }] = await Promise.all([
