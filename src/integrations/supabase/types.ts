@@ -87,6 +87,60 @@ export type Database = {
           },
         ]
       }
+      exams: {
+        Row: {
+          answers: Json | null
+          chapters: Json
+          created_at: string
+          grade: string
+          id: string
+          language: string
+          questions: Json
+          report: Json | null
+          score: number | null
+          status: string
+          submitted_at: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          week_start: string
+        }
+        Insert: {
+          answers?: Json | null
+          chapters?: Json
+          created_at?: string
+          grade?: string
+          id?: string
+          language?: string
+          questions?: Json
+          report?: Json | null
+          score?: number | null
+          status?: string
+          submitted_at?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+          week_start?: string
+        }
+        Update: {
+          answers?: Json | null
+          chapters?: Json
+          created_at?: string
+          grade?: string
+          id?: string
+          language?: string
+          questions?: Json
+          report?: Json | null
+          score?: number | null
+          status?: string
+          submitted_at?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
       homework: {
         Row: {
           answers: Json | null
