@@ -147,13 +147,16 @@ export function NotificationPreferences() {
                     }`}
                   />
                 </button>
+              </div>
+            );
+          })}
       </div>
 
       <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
         <div className="text-sm font-medium text-white">Send a test notification</div>
         <p className="mt-0.5 text-xs text-white/55">
-          Enabled types arrive in your bell instantly. Muted types send nothing — that's how you
-          know the switch worked.
+          Enabled types arrive in your bell instantly. Muted types send nothing — that&apos;s how
+          you know the switch worked.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {(["homework", "quiz", "streak"] as TestKind[]).map((kind) => (
@@ -175,9 +178,6 @@ export function NotificationPreferences() {
         </div>
       </div>
 
-            );
-          })}
-      </div>
     </GlassCard>
   );
 }
