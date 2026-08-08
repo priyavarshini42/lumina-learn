@@ -42,6 +42,9 @@ export function NotificationPreferences() {
   const { user } = useAuth();
   const [prefs, setPrefs] = useState<Prefs | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
+  const [testing, setTesting] = useState<TestKind | null>(null);
+  const sendTest = useServerFn(sendTestNotification);
+
 
   useEffect(() => {
     if (!user) return;
