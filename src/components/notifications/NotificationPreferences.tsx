@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
-import { BookOpen, Flame, Loader2, Trophy, BellRing } from "lucide-react";
+import { BookOpen, Flame, Loader2, Trophy, BellRing, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
 import { GlassCard } from "@/components/ui/Section";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { sendTestNotification } from "@/lib/notifications.functions";
+
+type TestKind = "homework" | "quiz" | "streak";
+
 
 type Prefs = {
   homework_enabled: boolean;
