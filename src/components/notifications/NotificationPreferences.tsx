@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
-import { BookOpen, Flame, Loader2, Trophy, BellRing } from "lucide-react";
+import { BookOpen, Flame, Loader2, Trophy, BellRing, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
 import { GlassCard } from "@/components/ui/Section";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { sendTestNotification } from "@/lib/notifications.functions";
+
+type TestKind = "homework" | "quiz" | "streak";
+
 
 type Prefs = {
   homework_enabled: boolean;
@@ -37,6 +42,9 @@ export function NotificationPreferences() {
   const { user } = useAuth();
   const [prefs, setPrefs] = useState<Prefs | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
+  const [testing, setTesting] = useState<TestKind | null>(null);
+  const sendTest = useServerFn(sendTestNotification);
+
 
   useEffect(() => {
     if (!user) return;
@@ -71,6 +79,23 @@ export function NotificationPreferences() {
       toast.success(next[key] ? "Alerts enabled" : "Alerts muted");
     }
   };
+
+  const runTest = async (kind: TestKind) => {
+    setTesting(kind);
+    try {
+      const res = await sendTest({ data: { kind } });
+      if (res.sent) {
+        toast.success(`Test ${kind} alert sent — check your bell.`);
+      } else {
+        toast.info(`${kind} alerts are muted, so nothing was sent. Preferences are working.`);
+      }
+    } catch {
+      toast.error("Could not send the test notification. Please try again.");
+    } finally {
+      setTesting(null);
+    }
+  };
+
 
   if (!user) return null;
 
@@ -126,6 +151,33 @@ export function NotificationPreferences() {
             );
           })}
       </div>
+
+      <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
+        <div className="text-sm font-medium text-white">Send a test notification</div>
+        <p className="mt-0.5 text-xs text-white/55">
+          Enabled types arrive in your bell instantly. Muted types send nothing — that&apos;s how
+          you know the switch worked.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {(["homework", "quiz", "streak"] as TestKind[]).map((kind) => (
+            <button
+              key={kind}
+              type="button"
+              disabled={testing !== null}
+              onClick={() => void runTest(kind)}
+              className="inline-flex items-center gap-2 rounded-full border border-[#FF4FD9]/40 bg-[#FF4FD9]/10 px-4 py-2 text-xs font-medium capitalize text-white transition hover:bg-[#FF4FD9]/20 disabled:opacity-60"
+            >
+              {testing === kind ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Send className="h-3.5 w-3.5" />
+              )}
+              Test {kind} alert
+            </button>
+          ))}
+        </div>
+      </div>
+
     </GlassCard>
   );
 }
