@@ -22,6 +22,7 @@ import { Route as ClassroomRouteImport } from './routes/classroom'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiPublicHooksGenerateWeeklyExamsRouteImport } from './routes/api/public/hooks/generate-weekly-exams'
 
 const WellnessRoute = WellnessRouteImport.update({
   id: '/wellness',
@@ -88,6 +89,12 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksGenerateWeeklyExamsRoute =
+  ApiPublicHooksGenerateWeeklyExamsRouteImport.update({
+    id: '/api/public/hooks/generate-weekly-exams',
+    path: '/api/public/hooks/generate-weekly-exams',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/tutor': typeof TutorRoute
   '/wellness': typeof WellnessRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/public/hooks/generate-weekly-exams': typeof ApiPublicHooksGenerateWeeklyExamsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +126,7 @@ export interface FileRoutesByTo {
   '/tutor': typeof TutorRoute
   '/wellness': typeof WellnessRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/public/hooks/generate-weekly-exams': typeof ApiPublicHooksGenerateWeeklyExamsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +143,7 @@ export interface FileRoutesById {
   '/tutor': typeof TutorRoute
   '/wellness': typeof WellnessRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/public/hooks/generate-weekly-exams': typeof ApiPublicHooksGenerateWeeklyExamsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/wellness'
     | '/api/chat'
+    | '/api/public/hooks/generate-weekly-exams'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/wellness'
     | '/api/chat'
+    | '/api/public/hooks/generate-weekly-exams'
   id:
     | '__root__'
     | '/'
@@ -181,6 +193,7 @@ export interface FileRouteTypes {
     | '/tutor'
     | '/wellness'
     | '/api/chat'
+    | '/api/public/hooks/generate-weekly-exams'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -197,6 +210,7 @@ export interface RootRouteChildren {
   TutorRoute: typeof TutorRoute
   WellnessRoute: typeof WellnessRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPublicHooksGenerateWeeklyExamsRoute: typeof ApiPublicHooksGenerateWeeklyExamsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -292,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-weekly-exams': {
+      id: '/api/public/hooks/generate-weekly-exams'
+      path: '/api/public/hooks/generate-weekly-exams'
+      fullPath: '/api/public/hooks/generate-weekly-exams'
+      preLoaderRoute: typeof ApiPublicHooksGenerateWeeklyExamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,6 +330,8 @@ const rootRouteChildren: RootRouteChildren = {
   TutorRoute: TutorRoute,
   WellnessRoute: WellnessRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPublicHooksGenerateWeeklyExamsRoute:
+    ApiPublicHooksGenerateWeeklyExamsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
