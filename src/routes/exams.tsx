@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { GlassCard, SectionHeader } from "@/components/ui/Section";
+import { ExamScheduleCard } from "@/components/exams/ExamScheduleCard";
+
 import { useAuth, educationLabel } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { generateWeeklyExam, getExamState, submitExam } from "@/lib/exam.functions";
