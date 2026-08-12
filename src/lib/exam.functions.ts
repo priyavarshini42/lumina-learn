@@ -85,81 +85,11 @@ export const generateWeeklyExam = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: GenerateInput) => input)
   .handler(async ({ data, context }): Promise<ExamRecord> => {
-    const { supabase, userId } = context;
-    const weekStart = weekStartISO();
-
-    const { data: existing } = await supabase
-      .from("exams")
-      .select(SELECT)
-      .eq("user_id", userId)
-      .eq("week_start", weekStart)
-      .maybeSingle();
-    if (existing && !data.regenerate) return toRecord(existing);
-
-
-    const since = new Date(Date.now() - 13 * 86400000).toISOString().slice(0, 10);
-    const [{ data: sessions }, { data: homework }] = await Promise.all([
-      supabase
-        .from("lesson_sessions")
-        .select("chapter_title, session_date")
-        .eq("user_id", userId)
-        .gte("session_date", since)
-        .order("session_date", { ascending: false })
-        .limit(20),
-      supabase
-        .from("homework")
-        .select("report")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: false })
-        .limit(10),
-    ]);
-
-    const chapters = Array.from(new Set((sessions ?? []).map((s) => s.chapter_title))).slice(0, 6);
-    const weakTopics = Array.from(
-      new Set(
-        (homework ?? []).flatMap((h) => {
-          const report = h.report as { weakTopics?: unknown } | null;
-          const list = Array.isArray(report?.weakTopics) ? report.weakTopics : [];
-          return list.filter((t): t is string => typeof t === "string");
-        }),
-      ),
-    ).slice(0, 6);
-
-    const { generateExamPaper } = await import("./exam.server");
-    const paper = await generateExamPaper({
-      studentName: data.studentName,
-      grade: data.grade,
-      language: data.language,
-      medium: data.medium,
-      chapters,
-      weakTopics,
-      weekStart,
-    });
-
-    const { data: saved, error } = await supabase
-      .from("exams")
-      .upsert(
-        {
-          user_id: userId,
-          week_start: weekStart,
-          title: paper.title,
-          grade: data.grade,
-          language: data.language,
-          chapters: chapters as unknown as Json,
-          questions: paper.questions as unknown as Json,
-          answers: null,
-          score: null,
-          report: null,
-          status: "generated",
-          submitted_at: null,
-        },
-        { onConflict: "user_id,week_start" },
-      )
-      .select(SELECT)
-      .single();
-    if (error) throw new Error(error.message);
-    return toRecord(saved);
+    const { ensureWeeklyExam } = await import("./exam-run.server");
+    const { row } = await ensureWeeklyExam(context.supabase, context.userId, data);
+    return toRecord(row);
   });
+
 
 export const submitExam = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

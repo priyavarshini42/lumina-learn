@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { GlassCard, SectionHeader } from "@/components/ui/Section";
+import { ExamScheduleCard } from "@/components/exams/ExamScheduleCard";
+
 import { useAuth, educationLabel } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { generateWeeklyExam, getExamState, submitExam } from "@/lib/exam.functions";
@@ -210,6 +212,12 @@ function Exams() {
         title="Test yourself. *Grow every week*."
         description="A fresh AI paper from this week's chapters, auto-scored with topic-wise weak-area analytics."
       />
+
+      <div className="mb-5">
+        <ExamScheduleCard />
+      </div>
+
+
 
       {!exam && (
         <GlassCard hover={false}>

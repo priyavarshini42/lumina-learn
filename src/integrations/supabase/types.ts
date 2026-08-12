@@ -87,6 +87,39 @@ export type Database = {
           },
         ]
       }
+      exam_schedules: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          enabled: boolean
+          hour_ist: number
+          last_run_at: string | null
+          last_status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week?: number
+          enabled?: boolean
+          hour_ist?: number
+          last_run_at?: string | null
+          last_status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          enabled?: boolean
+          hour_ist?: number
+          last_run_at?: string | null
+          last_status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       exams: {
         Row: {
           answers: Json | null
