@@ -115,3 +115,15 @@ export async function ensureWeeklyExam(
   if (error) throw new Error(error.message);
   return { row: saved as ExamRow, created: true };
 }
+
+/** Server-side copy of the education label ("Grade 7" / "Intermediate 1st Year · MPC"). */
+export function serverEducationLabel(p: {
+  education_type: string;
+  grade_number: number | null;
+  inter_year: string | null;
+  stream: string | null;
+}): string {
+  if (p.education_type === "school") return `Grade ${p.grade_number ?? ""}`.trim();
+  const year = p.inter_year === "first" ? "1st Year" : "2nd Year";
+  return `Intermediate ${year} · ${p.stream ?? ""}`.trim();
+}
