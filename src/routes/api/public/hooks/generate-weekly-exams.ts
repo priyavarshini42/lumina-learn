@@ -12,11 +12,14 @@ export const Route = createFileRoute("/api/public/hooks/generate-weekly-exams")(
         const apiKey =
           request.headers.get("apikey") ??
           request.headers.get("authorization")?.replace("Bearer ", "");
-        const expected =
-          process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["SUPABASE_ANON_KEY"];
-        if (!apiKey || !expected || apiKey !== expected) {
+        const allowed = [
+          process.env["SUPABASE_PUBLISHABLE_KEY"],
+          process.env["SUPABASE_ANON_KEY"],
+        ].filter((k): k is string => Boolean(k));
+        if (!apiKey || !allowed.includes(apiKey)) {
           return Response.json({ error: "Unauthorized" }, { status: 401 });
         }
+
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { ensureWeeklyExam, serverEducationLabel, weekStartISO } = await import(
