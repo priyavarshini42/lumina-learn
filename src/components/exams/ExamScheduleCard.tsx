@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { CalendarClock, Loader2, Save } from "lucide-react";
+import { CalendarClock, Loader2, Save, Timer } from "lucide-react";
 import { GlassCard } from "@/components/ui/Section";
 import {
   getExamSchedule,
@@ -17,6 +17,75 @@ function hourLabel(h: number) {
   const base = h % 12 === 0 ? 12 : h % 12;
   return `${base}:00 ${suffix}`;
 }
+
+const IST_OFFSET_MS = 5.5 * 3600000;
+
+/** Next moment the scheduler will run for this day/hour (IST), as an absolute Date. */
+function nextRunAt(dayOfWeek: number, hourIst: number, from: number = Date.now()): Date {
+  const ist = new Date(from + IST_OFFSET_MS);
+  let daysAhead = (dayOfWeek - ist.getUTCDay() + 7) % 7;
+  if (daysAhead === 0 && hourIst <= ist.getUTCHours()) daysAhead = 7;
+  const target = Date.UTC(
+    ist.getUTCFullYear(),
+    ist.getUTCMonth(),
+    ist.getUTCDate() + daysAhead,
+    hourIst,
+    0,
+    0,
+    0,
+  );
+  return new Date(target - IST_OFFSET_MS);
+}
+
+function countdownLabel(ms: number) {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const d = Math.floor(total / 86400);
+  const h = Math.floor((total % 86400) / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  if (d > 0) return `${d}d ${h}h ${m}m`;
+  if (h > 0) return `${h}h ${m}m ${s}s`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
+}
+
+function NextRun({ dayOfWeek, hourIst }: { dayOfWeek: number; hourIst: number }) {
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const next = nextRunAt(dayOfWeek, hourIst, now);
+  const stamp = next.toLocaleString("en-IN", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Kolkata",
+  });
+
+  return (
+    <div className="glass flex flex-wrap items-center justify-between gap-3 rounded-2xl p-3">
+      <div>
+        <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-white/50">
+          <Timer className="h-3 w-3" /> Next generation run
+        </div>
+        <div className="mt-1 text-sm font-medium text-white">{stamp} IST</div>
+      </div>
+      <div className="text-right">
+        <div className="font-mono text-lg font-semibold text-[#FF4FD9]">
+          {countdownLabel(next.getTime() - now)}
+        </div>
+        <div className="text-[11px] text-white/45">from now</div>
+      </div>
+    </div>
+  );
+}
+
 
 export function ExamScheduleCard() {
   const load = useServerFn(getExamSchedule);
@@ -140,6 +209,12 @@ export function ExamScheduleCard() {
             </button>
           </div>
         )}
+
+        {schedule.enabled && (
+          <NextRun dayOfWeek={schedule.dayOfWeek} hourIst={schedule.hourIst} />
+        )}
+
+
 
         {schedule.lastRunAt && (
           <div className="text-xs text-white/50">
