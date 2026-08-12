@@ -211,6 +211,12 @@ function Exams() {
         description="A fresh AI paper from this week's chapters, auto-scored with topic-wise weak-area analytics."
       />
 
+      <div className="mb-5">
+        <ExamScheduleCard />
+      </div>
+
+
+
       {!exam && (
         <GlassCard hover={false}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
