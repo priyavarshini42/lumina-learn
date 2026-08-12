@@ -210,6 +210,12 @@ export function ExamScheduleCard() {
           </div>
         )}
 
+        {schedule.enabled && (
+          <NextRun dayOfWeek={schedule.dayOfWeek} hourIst={schedule.hourIst} />
+        )}
+
+
+
         {schedule.lastRunAt && (
           <div className="text-xs text-white/50">
             Last automatic run: {new Date(schedule.lastRunAt).toLocaleString()}
